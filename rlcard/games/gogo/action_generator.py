@@ -1,6 +1,3 @@
-import os
-import json
-import csv
 from itertools import combinations
 import numpy as np
 
@@ -23,12 +20,15 @@ def pair_action():
 def trio_action():
     actions = []
     trios = [card * 3 for card in CARD_RANK[:-1]]
-    pairs = [f + s for f in CARD_RANK[:-1] for s in CARD_RANK]
-    pairs = [''] + CARD_RANK + pairs
     for t in trios:
-        for p in pairs:
-            if p.find(t[0]) == -1:
-                actions.append(t+p)
+        actions.append(t)
+        for c in CARD_RANK:
+            if c != t[0] : actions.append(t + c)
+        for it0 in range(len(CARD_RANK)):
+            if CARD_RANK[it0] == t[0]: continue
+            for it1 in range(it0, len(CARD_RANK)):
+                if CARD_RANK[it1] == t[0]: continue
+                actions.append(t + CARD_RANK[it0] + CARD_RANK[it1])
     return {"trio": actions}
 
 def solo_chain_action():
@@ -91,12 +91,17 @@ def trio_chain_action():
         
             sub_action.append(action)
             visited_pref = set()
-            invalid_pref = '-1'
-            if start >= 1: invalid_pref = CARD_RANK[start - 1] * 3
-            for pl in range(pref_length + 1):
+            invalid_pref = []
+            if start >= 1: invalid_pref.append(CARD_RANK[start - 1] * 3)
+            # if start + length < len(CARD_RANK) - 1: invalid_pref.append(CARD_RANK[start + length] * 3)
+            for pl in range(1, pref_length + 1):
                 for c in combinations(pref_list, pl):
                     pref_str = ''.join(c)
-                    if pref_str.find(invalid_pref) != -1: continue
+                    has_invalid = False
+                    for inv in invalid_pref:
+                        if pref_str.find(inv) != -1:
+                            has_invalid = True
+                    if has_invalid: continue
                     if pref_str in visited_pref: continue
                     visited_pref.add(pref_str)
 
@@ -115,8 +120,11 @@ def get_all_action():
         curr_action = globals()[type + '_action']()
         actions.update(curr_action)
     
+    total_cnt = 0
     for key in actions:
         print("{} has action {}".format(key, len(actions[key])))
+        total_cnt += len(actions[key])
+    print("total has {} action".format(total_cnt))
     return actions
 
 def prase_actions():
@@ -127,9 +135,10 @@ def prase_actions():
         sub_action = actions[type]
         sub_list = []
         for it in range(len(sub_action)):
-            action_map[sub_action[it]] = action_cnt
+            sc = sort_card(sub_action[it])
+            action_map[sc] = action_cnt
             action_list = [DETAIL_CARD_TYPE[type], it] 
-            action_list.extend(str2list(sub_action[it]))
+            action_list.extend(str2list(sc))
             sub_list.append(action_list)
             action_cnt += 1
         type_to_order[DETAIL_CARD_TYPE[type]] = (type, action_cnt - len(sub_action) , action_cnt - 1)
@@ -148,16 +157,29 @@ def np2str(cards):
     ret = ''
     clist = []
     for it in range(13):
-        clist.append((CARD_RANK[it], int(cards[it])))
+        clist.append((CARD_RANK[it], int(cards[it + 2])))
     clist.sort(key = lambda x: -x[1] * 100 + CARD_RANK.index(x[0]))
     for c in clist:
         ret += c[0] * c[1]
     return ret
 
+def sort_card(cards):
+    clist = [c for c in cards]
+    clist.sort(key = lambda x : CARD_RANK.index(x))
+    return ''.join(clist)
+
+def FirstGreaterSecond(c1, c2):
+    bomb_index = DETAIL_CARD_TYPE.index('bomb') 
+    c1_bomb, c2_bomb = int(c1[0]) == bomb_index, int(c2[0]) == bomb_index
+    if c1_bomb and not c2_bomb:
+        return 1
+    if c2_bomb and not c1_bomb:
+        return -1
+    if int(c1[0]) == int(c2[0]):
+        return 1 if c1[1] > c2[1] else -1
+    return 0
 
 
 if __name__ == "__main__":
-    action_mat, type2order = prase_actions()
-    print(type2order)
-    print(action_mat)
+    action_mat, type2order, action_map = prase_actions()
             

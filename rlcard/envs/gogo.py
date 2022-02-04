@@ -114,7 +114,6 @@ class GoGoEnv(Env):
             legal_actions (list): a list of legal actions' id
         '''
         legal_actions = self.game.state['actions']
-        legal_actions = {self._ACTION_2_ID[action]: _cards2array(action) for action in legal_actions}
         return legal_actions
 
     def get_perfect_information(self):

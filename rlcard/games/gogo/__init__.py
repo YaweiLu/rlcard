@@ -1,6 +1,5 @@
-from rlcard.games.doudizhu.dealer import DoudizhuDealer as Dealer
-from rlcard.games.doudizhu.judger import DoudizhuJudger as Judger
-from rlcard.games.doudizhu.player import DoudizhuPlayer as Player
-from rlcard.games.doudizhu.round import DoudizhuRound as Round
-from rlcard.games.doudizhu.game import DoudizhuGame as Game
+from rlcard.games.gogo.dealer import GoGoDealer as Dealer
+from rlcard.games.gogo.player import GoGoPlayer as Player
+from rlcard.games.gogo.round import GoGoRound as Round
+from rlcard.games.gogo.game import GoGoGame as Game
 
