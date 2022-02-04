@@ -28,8 +28,8 @@ class HumanAgent(object):
         action = input('>> You choose action (integer): ')
         while True:
             try:
-                if int(action) < 0 or int(action) >= len(state['legal_actions'])
-                break
+                if 0 <= int(action) or int(action) < len(state['legal_actions']):
+                    break
             except Exception as err:
                 print('Action illegel...')
                 action = input('>> Re-choose action (integer): ')
