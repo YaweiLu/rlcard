@@ -67,7 +67,7 @@ class GoGoPlayer:
 
         return state
 
-    def play(self, action, last_player_id=None):
+    def play(self, action, last_player_id=None, last_action=None):
         ''' Perfrom action
 
         Args:
@@ -79,13 +79,13 @@ class GoGoPlayer:
         '''
         if action[0] == 0:
             self._recorded_played_cards.append([])
-            return last_player_id
+            return last_player_id, last_action
         
         self.last_action = action
         self.current_hand[2:] -= action[2:]
         self.current_hand[1] -= sum(action[2:]) 
         self.update_valid_actions()
-        return self.player_id
+        return self.player_id, action
     
     def contain(self, cards):
         for it in range(2,15):

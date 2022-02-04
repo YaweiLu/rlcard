@@ -14,6 +14,7 @@ class GoGoRound:
         self.trace = []
 
         self.last_player_id = 0
+        self.last_action = None
         self.current_player = 0
 
     def initiate(self, players):
@@ -54,4 +55,4 @@ class GoGoRound:
             object of DoudizhuPlayer: player who played current biggest cards.
         '''
         self.update_public(action)
-        self.last_player_id = player.play(action, self.last_player_id)
+        self.last_player_id, self.last_action = player.play(action, self.last_player_id, self.last_action)
