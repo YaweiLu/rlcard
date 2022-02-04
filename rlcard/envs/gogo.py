@@ -38,7 +38,7 @@ class GoGoEnv(Env):
         Returns:
             payoffs (list): a list of payoffs for each player
         '''
-        return 1
+        return self.game.winner_id
 
     def _get_legal_actions(self):
         ''' Get all legal actions for current state
@@ -46,8 +46,11 @@ class GoGoEnv(Env):
         Returns:
             legal_actions (list): a list of legal actions' id
         '''
-        legal_actions = self.game.state['actions'].tolist()
+        legal_actions = self.game.state['actions']
+        if legal_actions is not None: legal_actions = legal_actions.tolist()
         return legal_actions
+    def _decode_action(self, action):
+        return np.asarray(action) if isinstance(action, list) else action
 
 
 if __name__ == "__main__":

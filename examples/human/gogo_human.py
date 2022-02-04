@@ -6,6 +6,8 @@ from rlcard.agents import RandomAgent as RandomAgent
 #from rlcard.agents.human_agents.gogo_human_agent import HumanAgent
 from rlcard.agents import GoGoHumanAgent as HumanAgent
 from rlcard.utils.utils import print_card
+from rlcard.games.gogo.action_generator import np2str
+
 
 # Make environment
 num_players = 3
@@ -38,24 +40,10 @@ while (True):
             _action_list.insert(0, action_record[-i])
 
         for pair in _action_list[0]:
-            print('>> Player', pair[0], 'chooses', pair[1])
-
-    # Let's take a look at what the agent card is
-    print('===============   Dealer hand   ===============')
-    print_card(state[0]['state'][1])
-
-    for i in range(num_players):
-        print('===============   Player {} Hand   ==============='.format(i))
-        print_card(state[i]['state'][0])
+            print('>> Player', pair[0], 'chooses', np2str(pair[1])[1])
 
     print('===============     Result     ===============')
-    for i in range(num_players):
-        if payoffs[i] == 1:
-            print('Player {} win {} chip!'.format(i, payoffs[i]))
-        elif payoffs[i] == 0:
-            print('Player {} is tie'.format(i))
-        else:
-            print('Player {} lose {} chip!'.format(i, -payoffs[i]))
-        print('')
 
-    input("Press any key to continue...")
+    print("You Win!" if  payoffs == human_player_id else "You Lose!")
+
+    input("\nPress any key to continue...")

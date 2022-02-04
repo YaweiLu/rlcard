@@ -37,7 +37,9 @@ class RandomAgent(object):
             action (int): The action predicted (randomly chosen) by the random agent
             probs (list): The list of action probabilities
         '''
-        import pdb;pdb.set_trace()
+        action_length = len(state['legal_actions'])
+        select_index = np.random.randint(0, action_length)
+        return state['legal_actions'][select_index], select_index
         probs = [0 for _ in range(self.num_actions)]
         for i in state['legal_actions']:
             probs[i] = 1/len(state['legal_actions'])

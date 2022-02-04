@@ -49,12 +49,12 @@ class GoGoPlayer:
         valid_num = self.valid_actions.shape[0]
         greater_index = []
         for it in range(valid_num):
-            is_greater, is_valid = False, True
-            if FirstGreaterSecond(self.valid_actions[it,:], last_action) == 1:
+            action, is_greater, is_valid = self.valid_actions[it,:], False, True
+            if FirstGreaterSecond(action, last_action) == 1:
                 is_greater = True
-            if last_action is not None and int(last_action[0]) in self.trio_num:
-                expected_length = min(self.current_hand[1], 5 * self.trio_num[int(last_action[0])])
-                if sum(self.valid_actions[it,2:]) < expected_length:
+            if int(action[0]) in self.trio_num:
+                expected_length = min(self.current_hand[1], 5 * self.trio_num[int(action[0])])
+                if sum(action[2:]) < expected_length:
                     is_valid = False
 
             if is_greater and is_valid:  greater_index.append(it)

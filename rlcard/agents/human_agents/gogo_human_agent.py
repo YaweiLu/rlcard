@@ -61,9 +61,9 @@ def _print_state(state, legal_actions):
     for it in range(-view_length, 0):
         it_id, it_action = trace[it]
         print("Player {} played".format(it_id))
-        print_card(np2str(it_action))    
+        print_card(np2str(it_action)[0])    
 
-    print('===============   Player\'s Hand   ===============')
+    print('===============   Player {} Hand   ==============='.format(state['self']))
     current_hand = state['current_hand']
     hand_cards, hand_str = np2str(current_hand)
     print(hand_str)
