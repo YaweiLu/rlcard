@@ -40,7 +40,7 @@ while (True):
             _action_list.insert(0, action_record[-i])
 
         for pair in _action_list[0]:
-            print('>> Player', pair[0], 'chooses', np2str(pair[1])[1])
+            print('>> Player {} has {}, chooses {}'.format(pair[0], pair[2], np2str(pair[1])[1]))
 
     print('===============     Result     ===============')
 

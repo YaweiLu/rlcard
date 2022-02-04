@@ -1,6 +1,7 @@
 from collections import Counter, OrderedDict
 import numpy as np
 from rlcard.envs import Env
+from rlcard.games.gogo.action_generator import np2str
 
 
 
@@ -13,6 +14,30 @@ class GoGoEnv(Env):
         self.name = 'gogo'
         self.game = Game()
         super().__init__(config)
+    
+    def step(self, action, raw_action=False):
+        ''' Step forward
+
+        Args:
+            action (int): The action taken by the current player
+            raw_action (boolean): True if the action is a raw action
+
+        Returns:
+            (tuple): Tuple containing:
+
+                (dict): The next state
+                (int): The ID of the next player
+        '''
+        if not raw_action:
+            action = self._decode_action(action)
+
+        self.timestep += 1
+        # Record the action for human interface
+        player = self.game.players[self.get_player_id()]
+        self.action_recorder.append((self.get_player_id(), action, np2str(player.current_hand)[1]))
+        next_state, player_id = self.game.step(action)
+
+        return self._extract_state(next_state), player_id
 
     def _extract_state(self, state):
         ''' Encode state
