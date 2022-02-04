@@ -14,6 +14,6 @@ from rlcard.agents.human_agents.limit_holdem_human_agent import HumanAgent as Li
 from rlcard.agents.human_agents.nolimit_holdem_human_agent import HumanAgent as NolimitholdemHumanAgent
 from rlcard.agents.human_agents.leduc_holdem_human_agent import HumanAgent as LeducholdemHumanAgent
 from rlcard.agents.human_agents.blackjack_human_agent import HumanAgent as BlackjackHumanAgent
+from rlcard.agents.human_agents.gogo_human_agent import HumanAgent as GoGoHumanAgent
 from rlcard.agents.human_agents.uno_human_agent import HumanAgent as UnoHumanAgent
 from rlcard.agents.random_agent import RandomAgent
-from rlcard.agents.human_agents.gogo_human_agent import HumanAgent as GoGoHumanAgent

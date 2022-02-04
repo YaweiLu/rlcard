@@ -13,6 +13,7 @@ class GoGoGame:
         self.allow_step_back = False
         self.np_random = np.random.RandomState()
         self.num_players = 3
+        self.num_actions = 90000
 
     def init_game(self):
         ''' Initialize players and state.
@@ -103,6 +104,14 @@ class GoGoGame:
             int: the number of players in doudizhu
         '''
         return self.num_players
+    
+    def get_num_actions(self):
+        ''' Return the number of players in doudizhu
+
+        Returns:
+            int: the number of players in doudizhu
+        '''
+        return self.num_actions
 
     def is_over(self):
         ''' Judge whether a game is over

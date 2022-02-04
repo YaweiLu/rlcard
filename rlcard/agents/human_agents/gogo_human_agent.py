@@ -6,14 +6,13 @@ class HumanAgent(object):
     ''' A human agent for GoGo. It can be used to play alone for understand how the blackjack code runs
     '''
 
-    def __init__(self, player_id = 0):
+    def __init__(self):
         ''' Initilize the human agent
 
         Args:
             num_actions (int): the size of the output action space
         '''
         self.use_raw = True
-        self.player_id = player_id
 
     @staticmethod
     def step(state):

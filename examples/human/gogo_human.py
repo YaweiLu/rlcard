@@ -3,19 +3,18 @@
 
 import rlcard
 from rlcard.agents import RandomAgent as RandomAgent
+#from rlcard.agents.human_agents.gogo_human_agent import HumanAgent
 from rlcard.agents import GoGoHumanAgent as HumanAgent
 from rlcard.utils.utils import print_card
 
 # Make environment
-num_players = 2
-env = rlcard.make('blackjack', config={'game_num_players': num_players})
+num_players = 3
+env = rlcard.make('gogo', config={'game_num_players': num_players})
 human_player_id = 0
 random_agent = RandomAgent(90000)
 agents = [random_agent] * 3
-agents[human_player_id] = HumanAgent(human_player_id)
+agents[human_player_id] = HumanAgent()
 env.set_agents(agents)
-
-print(">> Blackjack human agent")
 
 while (True):
     print(">> Start a new game")
