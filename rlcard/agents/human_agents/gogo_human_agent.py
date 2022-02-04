@@ -1,5 +1,5 @@
 from rlcard.utils.utils import print_card
-from rlcard.games.gogo.action_generator import np2str
+from rlcard.games.gogo.action_generator import np2str, sort_card
 
 
 class HumanAgent(object):
@@ -25,14 +25,27 @@ class HumanAgent(object):
             action (int): The action decided by human
         '''
         _print_state(state['raw_obs'], state['legal_actions'])
-        action = input('>> You choose action (integer): ')
-        while True:
-            try:
-                if 0 <= int(action) or int(action) < len(state['legal_actions']):
-                    break
-            except Exception as err:
+        legal_action = {}
+        for it in range(len(state['legal_actions'])):
+            ac_str = np2str(state['legal_actions'][it])[1]
+            legal_action[sort_card(ac_str)] = it
+        if len(legal_action) == 1:
+            action = 0
+            input('>> You has only one valid action, press Enter to play: ')
+        else:
+            action = input('>> You choose action: ')
+            action = action.upper()
+            while True:
+                if action.isdigit() and int(action) < len(state['legal_actions']): break
+                try:
+                    action = action[1:]
+                    if sort_card(action) in legal_action:
+                        action = legal_action[sort_card(action)]
+                        break 
+                except Exception as err:
+                    print(err)
                 print('Action illegel...')
-                action = input('>> Re-choose action (integer): ')
+                action = input('>> Re-choose action: ')
         return state['legal_actions'][int(action)]
 
     def eval_step(self, state):
