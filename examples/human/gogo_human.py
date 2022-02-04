@@ -13,14 +13,14 @@ from rlcard.games.gogo.action_generator import np2str
 # Make environment
 num_players = 3
 env = rlcard.make('gogo', config={'game_num_players': num_players})
-human_player_id = 0
-random_agent = GoGoRuleAgent()
-agents = [random_agent] * 3
-agents[human_player_id] = HumanAgent()
-env.set_agents(agents)
 
 while (True):
     print(">> Start a new game")
+    human_player_id = int(input(">> Input player id (0, 1 or 2):"))
+    random_agent = GoGoRuleAgent()
+    agents = [random_agent] * 3
+    agents[human_player_id] = HumanAgent()
+    env.set_agents(agents)
 
     trajectories, payoffs = env.run(is_training=False)
     # If the human does not take the final action, we need to

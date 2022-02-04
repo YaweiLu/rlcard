@@ -36,6 +36,7 @@ class HumanAgent(object):
             action = input('>> You choose action: ')
             action = action.upper()
             while True:
+                if action == "": action = '0'
                 if action.isdigit() and int(action) < len(state['legal_actions']): break
                 try:
                     action = action[1:]

@@ -123,9 +123,9 @@ def get_all_action():
     
     total_cnt = 0
     for key in actions:
-        print("{} has action {}".format(key, len(actions[key])))
+        # print("{} has action {}".format(key, len(actions[key])))
         total_cnt += len(actions[key])
-    print("total has {} action".format(total_cnt))
+    # print("total has {} action".format(total_cnt))
     return actions
 
 def prase_actions():

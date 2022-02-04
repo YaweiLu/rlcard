@@ -60,6 +60,7 @@ class Env(object):
         '''
         state, player_id = self.game.init_game()
         self.action_recorder = []
+        print("Init game success")
         return self._extract_state(state), player_id
 
     def step(self, action, raw_action=False):
