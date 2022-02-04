@@ -1,5 +1,6 @@
 from itertools import combinations
 import numpy as np
+from rlcard.games.base import Card
 
 
 CARD_TYPE = ['solo', 'pair', 'trio', 'solo_chain', 'pair_chain', 'trio_chain', 'bomb']
@@ -158,10 +159,18 @@ def np2str(cards):
     clist = []
     for it in range(13):
         clist.append((CARD_RANK[it], int(cards[it + 2])))
-    clist.sort(key = lambda x: -x[1] * 100 + CARD_RANK.index(x[0]))
+    clist.sort(key = lambda x: CARD_RANK.index(x[0]))
     for c in clist:
         ret += c[0] * c[1]
-    return ret
+    suit_set = ['S', 'H', 'D', 'C']
+    cards_list = []
+    for it in clist:
+        if it[0] == 'R' and it[1] > 0:
+            cards_list.append(Card("RJ",''))
+        else:
+            for s in range(it[1]):
+                cards_list.append(Card(suit_set[s], it[0]))
+    return cards_list, ret
 
 def sort_card(cards):
     clist = [c for c in cards]
@@ -169,7 +178,9 @@ def sort_card(cards):
     return ''.join(clist)
 
 def FirstGreaterSecond(c1, c2):
-    bomb_index = DETAIL_CARD_TYPE.index('bomb') 
+    if c2 is None:
+        return 1 if int(c1[0]) != 0 else 0
+    bomb_index = DETAIL_CARD_TYPE['bomb']
     c1_bomb, c2_bomb = int(c1[0]) == bomb_index, int(c2[0]) == bomb_index
     if c1_bomb and not c2_bomb:
         return 1

@@ -37,7 +37,7 @@ class GoGoDealer:
         Args:
             players (list): list of Player objects
         '''
-        hand_num = (len(self.deck) - 3) // len(players)
+        hand_num = len(self.deck) // len(players)
         self.shuffle()
         for index, player in enumerate(players):
             current_hand = self.deck[index*hand_num:(index+1)*hand_num]

@@ -29,12 +29,13 @@ class GoGoPlayer:
         self.current_hand = []
         self.valid_actions = None
         self.last_action = None
+        self.trio_num = {3:1, 19:2, 20:3, 21:4, 22:5}
 
         #record cards removed from self.current_hand for each play()
         self._recorded_played_cards = []
 
     def update_valid_actions(self):
-        if self.valid_actions == None:
+        if self.valid_actions is None:
             self.valid_actions, _, _ = prase_actions() 
         action_num = self.valid_actions.shape[0]
         valid_action_index = []
@@ -45,13 +46,18 @@ class GoGoPlayer:
         self.valid_actions.reshape(-1, 15)
     
     def get_available_actions(self, last_action = None):
-        if last_action == None:
-            return self.valid_actions
         valid_num = self.valid_actions.shape[0]
         greater_index = []
         for it in range(valid_num):
-            if FirstGreaterSecond(self.valid_action[it,:], last_action) == 1:
-                greater_index.append(it)
+            is_greater, is_valid = False, True
+            if FirstGreaterSecond(self.valid_actions[it,:], last_action) == 1:
+                is_greater = True
+            if last_action is not None and int(last_action[0]) in self.trio_num:
+                expected_length = min(self.current_hand[1], 5 * self.trio_num[int(last_action[0])])
+                if sum(self.valid_actions[it,2:]) < expected_length:
+                    is_valid = False
+
+            if is_greater and is_valid:  greater_index.append(it)
         if len(greater_index) > 0:
             return self.valid_actions[greater_index,:]
         return self.valid_actions[0,:].reshape(1,-1)

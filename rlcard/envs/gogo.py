@@ -23,8 +23,8 @@ class GoGoEnv(Env):
         current_hand = state['current_hand']
         others_hand = state['others_hand']
         seen_cards = state['seen_cards']
-        obs = np.concatenate((current_hand,
-                              others_hand,
+        obs = np.concatenate((current_hand.reshape(-1, 15),
+                              others_hand.reshape(-1,15),
                               seen_cards
                             ))
         extracted_state = OrderedDict({'obs': obs, 'legal_actions': self._get_legal_actions()})

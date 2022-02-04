@@ -52,10 +52,10 @@ def _print_state(state, legal_actions):
     print('\n=============   Rest Cards   ===============')
     seen_cards = state['seen_cards']
     for id in range(3):
-        print("Player {} has {} cards".format(id, 16 - sum(seen_cards[id, 2:])))
+        print("Player {} has {} cards".format(id, int(16 - sum(seen_cards[id, 2:]))))
     
     print('=============   Last Actions  ===============')
-    trace = state['trace'], range(min(3, len(iter)))
+    trace = state['trace']
     view_length = min(3, len(trace))
 
     for it in range(-view_length, 0):
@@ -65,9 +65,10 @@ def _print_state(state, legal_actions):
 
     print('===============   Player\'s Hand   ===============')
     current_hand = state['current_hand']
-    hand_str = np2str(current_hand)
-    print_card(hand_str)
+    hand_cards, hand_str = np2str(current_hand)
+    print(hand_str)
+    print_card(hand_cards)
 
     print('\n=========== Actions You Can Choose ===========')
-    print(', '.join([str(index) + ': ' + np2str(action) for index, action in enumerate(legal_actions)]))
+    print(', '.join([str(index) + ': ' + np2str(action)[1] for index, action in enumerate(legal_actions)]))
     print('')

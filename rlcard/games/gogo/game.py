@@ -2,7 +2,7 @@
 ''' Implement GoGo Game class
 '''
 import numpy as np
-from rlcard.games.gogo import Player, Round
+from rlcard.games.gogo import Player, Round, Dealer
 
 
 class GoGoGame:
@@ -26,8 +26,10 @@ class GoGoGame:
         self.winner_id = None
 
         # initialize players
-        self.players = [Player(num, self.np_random)
-                        for num in range(self.num_players)]
+        self.players = [Player(num) for num in range(self.num_players)]
+
+        self.dealer = Dealer(self.np_random)
+        self.dealer.deal_cards(self.players)
 
         # initialize round to deal cards and determine landlord
         self.round = Round(self.np_random)
