@@ -10,6 +10,7 @@ class GoGoGame:
     information.
     '''
     def __init__(self):
+        self.allow_step_back = False
         self.np_random = np.random.RandomState()
         self.num_players = 3
 
